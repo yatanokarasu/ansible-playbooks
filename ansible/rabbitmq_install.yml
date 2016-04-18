@@ -1,0 +1,23 @@
+---
+
+  - hosts: rabbitmq
+
+    #pre_tasks:
+
+      # these tasks are executed prior to roles.
+
+
+    roles:
+
+      # A role can be listed flat like this:
+      #   - role1
+      #   - role2
+      #      :
+
+      # but you can also pass variable to them, so they can be parameterized.
+      # You can call a role more than once with different parameters too.
+      # It might look like the section below:
+      #   - { role: role1, param1: xxx, param2: yyy, ... }
+      #   - { role: role2, param1: xxx, param2: yyy, ... }
+
+      - rabbitmq

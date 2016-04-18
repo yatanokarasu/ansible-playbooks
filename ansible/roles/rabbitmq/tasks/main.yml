@@ -1,0 +1,9 @@
+---
+
+  - name: download Erlang packages with dependencies
+    local_action: 
+      module:   get_url
+      url:      https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/{{ erlang_installer_filename }}
+      dest:     /tmp/{{ erlang_installer_filename }}
+    vars:
+      erlang_installer_filename: esl-erlang_18.3-1~centos~6_amd64.rpm
