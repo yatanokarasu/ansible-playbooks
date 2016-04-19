@@ -1,0 +1,5 @@
+
+erlang_rpms:
+  - https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/esl-erlang_18.3-1~centos~6_amd64.rpm
+
+erlang_rpms_dir:            /tmp/rpms/erlang

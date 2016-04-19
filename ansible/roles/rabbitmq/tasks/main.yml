@@ -1,9 +1,26 @@
 ---
 
+  - name: Prepare directory to store Erlang and depending packages
+
+    local_action:
+      module:   file
+      path:     "{{ erlang_rpms_dir }}"
+      state:    directory
+
+
   - name: download Erlang packages with dependencies
-    local_action: 
+
+    local_action:
       module:   get_url
-      url:      https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/{{ erlang_installer_filename }}
-      dest:     /tmp/{{ erlang_installer_filename }}
-    vars:
-      erlang_installer_filename: esl-erlang_18.3-1~centos~6_amd64.rpm
+      url:      "{{ item }}"
+      dest:     "{{ erlang_rpms_dir }}/{{ item | basename }}"
+
+    with_items:
+      - "{{ erlang_rpms }}"
+
+
+  - name: Upload Erlang and depending packages
+
+    copy:
+      src:      "{{ erlang_rpms_dir }}"
+      dest:     "{{ erlang_rpms_dir | dirname }}"
