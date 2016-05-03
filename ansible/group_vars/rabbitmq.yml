@@ -50,3 +50,4 @@ erlang_rpms:
   - http://mirror.centos.org/centos/6.7/os/x86_64/Packages/unixODBC-2.2.14-14.el6.x86_64.rpm
 
 erlang_rpms_dir:            /tmp/rpms/erlang
+erlang_repository:          http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
