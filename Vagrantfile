@@ -55,11 +55,12 @@ def get_provision_script(server_name)
     create_local_ansible_conf_file =<<-__EOT__
       cat <<__EOD__ >~vagrant/ansible.cfg
 [defaults]
-inventory = ./hosts
-jinja2_extensions = jinja2.ext.do,jinja2.ext.i18n
+inventory           = ./hosts
+jinja2_extensions   = jinja2.ext.do,jinja2.ext.i18n
+library             = /vagrant/ansible/library
 
 [ssh_connection]
-ssh_args = -F ./ssh_config
+ssh_args            = -F ./ssh_config
 __EOD__
     __EOT__
     
