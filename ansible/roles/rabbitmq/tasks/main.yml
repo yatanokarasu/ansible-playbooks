@@ -1,3 +1,20 @@
+#
+# This playbook will download packages at localhost, 
+# upload the packages to remote hosts and then install them.
+#
+# So it will perform the following procedure:
+#   1.  Create directory to store packages
+#   2.  Install wget command to add Erlang repository if not installed
+#   3.  Add Erlang Solution repository
+#   4.  Download Erlang OTP package and dependencies
+#   5.  Upload the packages to remote hosts
+#   6.  Install them
+#
+# NOTE:
+#   Since use 'shell' module, 
+#   the task to install the packages IS NOT idempotent.
+#
+
 ---
 
   - name: Prepare directory to store Erlang and depending packages
@@ -40,30 +57,19 @@
 
 
 
+  - name: Upload Erlang and depending packages
 
-  # - name: Download Erlang packages with dependencies
-
-  #   local_action:
-  #     module:   get_url
-  #     url:      "{{ item }}"
-  #     dest:     "{{ erlang_rpms_dir }}/{{ item | basename }}"
-
-  #   with_items:
-  #     - "{{ erlang_rpms }}"
+    copy:
+      src:          "{{ erlang_rpms_dir }}"
+      dest:         "{{ erlang_rpms_dir | dirname }}"
 
 
-  # - name: Upload Erlang and depending packages
+  - name: Install Erlang and depending packages
 
-  #   copy:
-  #     src:      "{{ erlang_rpms_dir }}"
-  #     dest:     "{{ erlang_rpms_dir | dirname }}"
+    become:         yes
 
+    yum:
+      name:         "{{ item }}"
 
-  # - name: Install Erlang and depending packages
-
-  #   become:     sudo
-
-  #   yum:
-  #     name:     "{{ erlang_rpms_dir }}/*.rpm"
-
-
+    with_fileglob:
+      - "{{ erlang_rpms_dir }}/*.rpm"
