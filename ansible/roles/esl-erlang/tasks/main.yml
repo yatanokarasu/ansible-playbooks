@@ -38,7 +38,8 @@
 
     local_action:
       module:       yum
-      name:         http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
+      name:         "{{ erlang_solutions_rpm }}"
+      state:        installed
 
 
 

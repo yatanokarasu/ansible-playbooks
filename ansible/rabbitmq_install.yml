@@ -20,4 +20,4 @@
       #   - { role: role1, param1: xxx, param2: yyy, ... }
       #   - { role: role2, param1: xxx, param2: yyy, ... }
 
-      - rabbitmq
+      - esl-erlang

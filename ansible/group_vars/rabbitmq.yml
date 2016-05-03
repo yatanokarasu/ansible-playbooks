@@ -1,2 +1,3 @@
 
 erlang_rpms_dir:            /tmp/rpms/erlang
+erlang_solutions_rpm:       http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
