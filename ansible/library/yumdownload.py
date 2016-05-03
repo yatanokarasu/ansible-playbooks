@@ -26,6 +26,17 @@ EXAMPLES = """
 """
 
 
+RETURN = """
+rc:
+    description:    status of yum command
+    type:           int
+
+results:
+    description:    stdout of yum command
+    type:           string
+"""
+
+
 def main():
     module = AnsibleModule(
         argument_spec = dict(
@@ -48,7 +59,14 @@ def main():
     if result[0] != 0:
         module.fail_json(msg=result[1])
     
-    module.exit_json(name=name, downloaddir=downloaddir, result=result)
+    response = dict(
+        name        = name,
+        downloaddir = downloaddir,
+        rc          = result[0],
+        results     = result[1],
+    )
+    
+    module.exit_json(**response)
 
 
 if __name__ == '__main__':
