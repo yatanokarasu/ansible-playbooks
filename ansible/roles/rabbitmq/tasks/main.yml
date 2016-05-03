@@ -3,24 +3,67 @@
   - name: Prepare directory to store Erlang and depending packages
 
     local_action:
-      module:   file
-      path:     "{{ erlang_rpms_dir }}"
-      state:    directory
+      module:       file
+      path:         "{{ erlang_rpms_dir }}"
+      state:        directory
 
 
-  - name: download Erlang packages with dependencies
+
+  - name: Install wget command
+
+    become:         yes
 
     local_action:
-      module:   get_url
-      url:      "{{ item }}"
-      dest:     "{{ erlang_rpms_dir }}/{{ item | basename }}"
-
-    with_items:
-      - "{{ erlang_rpms }}"
+      module:       yum
+      name:         wget
 
 
-  - name: Upload Erlang and depending packages
 
-    copy:
-      src:      "{{ erlang_rpms_dir }}"
-      dest:     "{{ erlang_rpms_dir | dirname }}"
+  - name: Add Erlang Solution repository
+
+    become:         yes
+
+    local_action:
+      module:       yum
+      name:         http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
+
+
+
+  - name: Download Erlang package with dependencies
+
+    become:         yes
+
+    local_action:
+      module:       yumdownload
+      name:         esl-erlang
+      downloaddir:  "{{ erlang_rpms_dir }}"
+
+
+
+
+  # - name: Download Erlang packages with dependencies
+
+  #   local_action:
+  #     module:   get_url
+  #     url:      "{{ item }}"
+  #     dest:     "{{ erlang_rpms_dir }}/{{ item | basename }}"
+
+  #   with_items:
+  #     - "{{ erlang_rpms }}"
+
+
+  # - name: Upload Erlang and depending packages
+
+  #   copy:
+  #     src:      "{{ erlang_rpms_dir }}"
+  #     dest:     "{{ erlang_rpms_dir | dirname }}"
+
+
+  # - name: Install Erlang and depending packages
+
+  #   become:     sudo
+
+  #   yum:
+  #     name:     "{{ erlang_rpms_dir }}/*.rpm"
+
+
