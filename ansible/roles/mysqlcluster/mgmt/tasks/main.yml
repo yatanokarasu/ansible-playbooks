@@ -15,3 +15,11 @@
       module:       get_url
       url:          "{{ mysqlc_archive_url }}"
       dest:         "{{ mysqlc_archive_dir }}"
+
+
+
+  - name: Upload and unarchive MySQL Cluster archive
+
+    unarchive:
+      src:          "{{ mysqlc_archive_dir }}"
+      dest:         "{{ mysqlc_extract_dir }}"
