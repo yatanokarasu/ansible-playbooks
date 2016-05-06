@@ -1,0 +1,17 @@
+---
+
+  - name: Prepare directory to store
+
+    local_action:
+      module:       file
+      path:         "{{ mysqlc_archive_dir }}"
+      state:        directory
+
+
+
+  - name: Download MySQL Cluster archive
+
+    local_action:
+      module:       get_url
+      url:          "{{ mysqlc_archive_url }}"
+      dest:         "{{ mysqlc_archive_dir }}"
