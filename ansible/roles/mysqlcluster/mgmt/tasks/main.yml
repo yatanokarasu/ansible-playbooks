@@ -20,7 +20,7 @@
 
   - name: Upload and extract MySQL Cluster archive
 
-    become:   yes
+    become:         yes
 
     unarchive:
       src:          "{{ mysqlc_archive_path }}"
@@ -31,9 +31,22 @@
 
   - name: Create symbolic link of MySQL Cluster
 
-    become:   yes
+    become:         yes
 
     file:
       src:          "{{ mysqlc_install_dir }}"
       dest:         "{{ mysqlc_base_dir }}"
       state:        link
+
+
+
+  - name: Create MySQL Cluster user
+
+    become:           yes
+
+    user:
+      name:           "{{ mysqlc_user }}"
+      uid:            "{{ mysqlc_uid }}"
+      home:           "{{ mysqlc_base_dir }}"
+      createhome:     no
+      shell:          /sbin/nologin
