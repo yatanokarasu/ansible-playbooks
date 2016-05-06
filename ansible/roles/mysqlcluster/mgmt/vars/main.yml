@@ -1,5 +1,7 @@
 
 mysqlc_archive_url:             https://dev.mysql.com/get/Downloads/MySQL-Cluster-7.4/mysql-cluster-gpl-7.4.11-linux-glibc2.5-x86_64.tar.gz
 mysqlc_archive_dir:             /tmp/tarball/mysqlc
+mysqlc_archive_path:            '{{ mysqlc_archive_dir }}/{{ mysqlc_archive_url | basename }}'
 
 mysqlc_extract_dir:             /usr/local
+mysqlc_install_dir:             '{{ mysqlc_extract_dir }}/{{ mysqlc_archive_url | basename | regex_replace("\.tar\.gz", "") }}'

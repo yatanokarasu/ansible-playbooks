@@ -18,8 +18,11 @@
 
 
 
-  - name: Upload and unarchive MySQL Cluster archive
+  - name: Upload and extract MySQL Cluster archive
+
+    become:   yes
 
     unarchive:
-      src:          "{{ mysqlc_archive_dir }}"
+      src:          "{{ mysqlc_archive_path }}"
       dest:         "{{ mysqlc_extract_dir }}"
+      creates:      "{{ mysqlc_install_dir }}"
