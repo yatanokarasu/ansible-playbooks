@@ -5,3 +5,4 @@ mysqlc_archive_path:            '{{ mysqlc_archive_dir }}/{{ mysqlc_archive_url 
 
 mysqlc_extract_dir:             /usr/local
 mysqlc_install_dir:             '{{ mysqlc_extract_dir }}/{{ mysqlc_archive_url | basename | regex_replace("\.tar\.gz", "") }}'
+mysqlc_base_dir:                '{{ mysqlc_extract_dir }}/mysqlcluster'

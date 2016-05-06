@@ -26,3 +26,14 @@
       src:          "{{ mysqlc_archive_path }}"
       dest:         "{{ mysqlc_extract_dir }}"
       creates:      "{{ mysqlc_install_dir }}"
+
+
+
+  - name: Create symbolic link of MySQL Cluster
+
+    become:   yes
+
+    file:
+      src:          "{{ mysqlc_install_dir }}"
+      dest:         "{{ mysqlc_base_dir }}"
+      state:        link
