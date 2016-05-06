@@ -2,3 +2,7 @@
 insecure_private_key
 ssh_config
 *.retry
+Gemfile.lock
+.bundle/
+ansible/vendor/
+
