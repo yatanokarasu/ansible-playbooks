@@ -3,3 +3,7 @@ rabbitmq_rpms_dir:              /tmp/rpms/rabbitmq
 rabbitmq_gpg_key:               https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
 
 erlang_solutions_rpm:           http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
+
+rabbitmq_iptables:
+  in:                           eth1
+  dest_ports:                   [4369, 5672, 15672]
