@@ -7,11 +7,13 @@ describe service('rabbitmq-server') do
 end
 
 
+# This port is EPMD(Erlang Port Mapper Daemon)
 describe port(4369) do
   it { should be_listening }
 end
 
 
+# This Port is RabbitMQ Node Port
 describe port(5672) do
   it { should be_listening }
 end
