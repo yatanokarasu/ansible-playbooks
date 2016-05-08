@@ -1,6 +1,8 @@
 ---
 
-  - hosts: mysqlcluster
+  - name:   mysqlcluster
+
+    hosts:  mysqlcluster
 
     #pre_tasks:
 

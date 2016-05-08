@@ -1,8 +1,8 @@
 ---
 
-  - hosts: rabbitmq
+  - name:   rabbitmq
 
-    name: RabbitMQ
+    hosts:  rabbitmq
 
     #pre_tasks:
 
