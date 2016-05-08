@@ -7,7 +7,22 @@ properties = AnsibleSpec.get_properties
 # {"name"=>"Ansible-Sample-TDD", "hosts"=>["192.168.0.103","192.168.0.103"], "user"=>"root", "roles"=>["nginx", "mariadb"]}
 # {"name"=>"Ansible-Sample-TDD", "hosts"=>[{"name" => "192.168.0.103:22","uri"=>"192.168.0.103","port"=>22, "private_key"=> "~/.ssh/id_rsa"}], "user"=>"root", "roles"=>["nginx", "mariadb"]}
 
-namespace :serverspec do
+
+task :spec    => 'spec:all'
+task :default => :spec
+
+
+namespace :spec do
+  targets = []
+  
+  properties.each do |property|
+    target = "#{property['name']}"
+    targets << target
+  end
+  
+  task :all     => targets
+  task :default => :all
+  
   properties.each_with_index.map do |property, index|
     property["hosts"].each do |host|
       desc "Run serverspec for #{property["name"]}"
@@ -30,7 +45,7 @@ namespace :serverspec do
           deps = AnsibleSpec.load_dependencies(role)
           roles += deps
         end
-        t.pattern = 'ansible/roles/{' + roles.join(',') + '}/spec/*_spec.rb'
+        t.pattern = 'roles/{' + roles.join(',') + '}/spec/*_spec.rb'
       end
     end
   end
