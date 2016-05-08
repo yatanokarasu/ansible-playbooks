@@ -1,0 +1,4 @@
+---
+-
+  playbook: ansible/rabbitmq_install.yml
+  inventory: ansible/staging

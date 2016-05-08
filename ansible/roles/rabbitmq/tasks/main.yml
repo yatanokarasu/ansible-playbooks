@@ -81,3 +81,30 @@
 
     with_fileglob:
       - "{{ rabbitmq_rpms_dir }}/*.rpm"
+
+
+
+  - name: Open access port for RabbitMQ
+
+    become:             yes
+
+    lineinfile:
+      dest:             /etc/sysconfig/iptables
+      insertafter:      "^:OUTPUT"
+      line:             "-A INPUT -i {{ rabbitmq_iptables.in }} -p tcp -m state --state NEW --dport {{ item }} -j ACCEPT"
+
+    with_items:         "{{ rabbitmq_iptables.dest_ports }}"
+
+    notify:
+      -                 restart iptables
+
+
+
+  - name: Enable RabbitMQ server on boot
+
+    become:             yes
+
+    service:
+      name:             rabbitmq-server
+      state:            started
+      enabled:          yes
