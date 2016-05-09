@@ -42,11 +42,59 @@
 
   - name: Create MySQL Cluster user
 
-    become:           yes
+    become:         yes
 
     user:
-      name:           "{{ mysqlc_user }}"
-      uid:            "{{ mysqlc_uid }}"
-      home:           "{{ mysqlc_base_dir }}"
-      createhome:     no
-      shell:          /sbin/nologin
+      name:         "{{ mysqlc_user }}"
+      uid:          "{{ mysqlc_uid }}"
+      home:         "{{ mysqlc_base_dir }}"
+      createhome:   no
+      shell:        /sbin/nologin"
+
+
+  - name: Create directory to store config file
+
+    become:         yes
+
+    file:
+      path:         "{{ mysqlc_config_dir }}"
+      state:        directory
+
+
+
+  - name: Change owner/group of directories
+
+    become:         yes
+
+    file:
+      path:         "{{ item }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_user }}"
+      recurse:      yes
+
+    with_items:
+      -             "{{ mysqlc_install_dir }}"
+      -             "{{ mysqlc_deploy_dir }}"
+
+
+
+  - name: Create profile to configure environment variables
+
+    become:         yes
+
+    template:
+      src:          profile.mysqlc.sh.j2
+      dest:         /etc/profile.d/mysqlc.sh
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_user }}"
+
+
+  - name: Create sysconfig file for service script
+
+    become:         yes
+
+    template:
+      src:          sysconfig.mysqlc.j2
+      dest:         /etc/sysconfig/mysqlc
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_user }}"

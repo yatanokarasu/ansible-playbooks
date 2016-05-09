@@ -7,5 +7,8 @@ mysqlc_extract_dir:             /usr/local
 mysqlc_install_dir:             '{{ mysqlc_extract_dir }}/{{ mysqlc_archive_url | basename | regex_replace("\.tar\.gz", "") }}'
 mysqlc_base_dir:                '{{ mysqlc_extract_dir }}/mysqlcluster'
 
+mysqlc_deploy_dir:              /ext/mysqlcluster
+mysqlc_config_dir:              '{{ mysqlc_deploy_dir }}/config'
+
 mysqlc_user:                    mysqlc
 mysqlc_uid:                     5001
