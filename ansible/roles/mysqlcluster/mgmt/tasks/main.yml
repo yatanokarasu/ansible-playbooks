@@ -14,7 +14,8 @@
     local_action:
       module:       get_url
       url:          "{{ mysqlc_archive_url }}"
-      dest:         "{{ mysqlc_archive_dir }}"
+      dest:         "{{ mysqlc_archive_filepath }}"
+      checksum:     "{{ mysqlc_archive_checksum }}"
 
 
 
@@ -23,7 +24,7 @@
     become:         yes
 
     unarchive:
-      src:          "{{ mysqlc_archive_path }}"
+      src:          "{{ mysqlc_archive_filepath }}"
       dest:         "{{ mysqlc_extract_dir }}"
       creates:      "{{ mysqlc_install_dir }}"
 
