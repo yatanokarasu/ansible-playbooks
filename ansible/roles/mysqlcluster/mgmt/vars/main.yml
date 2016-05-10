@@ -14,3 +14,6 @@ mysqlc_config_dir:              '{{ mysqlc_deploy_dir }}/config'
 
 mysqlc_user:                    mysqlc
 mysqlc_uid:                     5001
+
+mysqlc_mgmt:
+  config_file:                  "{{ mysqlc_config_dir }}/config.ini"
