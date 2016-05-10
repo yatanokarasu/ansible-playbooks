@@ -13,6 +13,7 @@ mysqlc_deploy_dir:              /ext/mysqlcluster
 mysqlc_config_dir:              '{{ mysqlc_deploy_dir }}/config'
 
 mysqlc_user:                    mysqlc
+mysqlc_group:                   mysqlc
 mysqlc_uid:                     5001
 
 mysqlc_mgmt:

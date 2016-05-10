@@ -48,6 +48,7 @@
     user:
       name:         "{{ mysqlc_user }}"
       uid:          "{{ mysqlc_uid }}"
+      group:        "{{ mysqlc_group }}"
       home:         "{{ mysqlc_base_dir }}"
       createhome:   no
       shell:        /sbin/nologin"
@@ -70,7 +71,7 @@
     file:
       path:         "{{ item }}"
       owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
       recurse:      yes
 
     with_items:
@@ -87,7 +88,7 @@
       src:          profile.mysqlc.sh.j2
       dest:         /etc/profile.d/mysqlc.sh
       owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
 
 
 
@@ -99,4 +100,4 @@
       src:          sysconfig.mysqlc.j2
       dest:         /etc/sysconfig/mysqlc
       owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
