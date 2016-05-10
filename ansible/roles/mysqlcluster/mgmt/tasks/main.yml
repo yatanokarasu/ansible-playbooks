@@ -101,3 +101,15 @@
       dest:         /etc/sysconfig/mysqlc
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
+
+
+
+  - name: Create data directory for mgmt node
+
+    become:         yes
+
+    file:
+      path:         "{{ mysqlc_mgmt.data_dir }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+      state:        directory
