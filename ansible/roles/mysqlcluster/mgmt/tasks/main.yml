@@ -90,6 +90,7 @@
       group:        "{{ mysqlc_user }}"
 
 
+
   - name: Create sysconfig file for service script
 
     become:         yes
