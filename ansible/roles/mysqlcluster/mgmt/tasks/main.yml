@@ -145,3 +145,13 @@
       dest:         /etc/sysconfig/iptables
       insertafter:  ^:OUTPUT
       line:         -A INPUT -p tcp -m state --state NEW --dport {{ mysqlc_mgmt.port }} -j ACCEPT
+
+
+
+  - name: Restart iptables
+
+    become:         yes
+
+    service:
+      name:         iptables
+      state:        restarted
