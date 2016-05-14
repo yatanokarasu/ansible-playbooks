@@ -16,6 +16,9 @@ mysqlc_user:                    mysqlc
 mysqlc_group:                   mysqlc
 mysqlc_uid:                     5001
 
+mysqlc_profile_file:            /etc/profile.d/mysqlc.sh
+mysqlc_sysconfig_file:          /etc/sysconfig/mysqlc
+
 mysqlc_mgmt:
   config_file:                  "{{ mysqlc_config_dir }}/config.ini"
   data_dir:                     "{{ mysqlc_deploy_dir }}/ndb_mgmd"

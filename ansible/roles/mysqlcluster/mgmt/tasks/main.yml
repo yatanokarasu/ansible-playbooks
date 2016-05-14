@@ -86,7 +86,7 @@
 
     template:
       src:          profile.mysqlc.sh.j2
-      dest:         /etc/profile.d/mysqlc.sh
+      dest:         "{{ mysqlc_profile_file }}"
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
 
@@ -98,7 +98,7 @@
 
     template:
       src:          sysconfig.mysqlc.j2
-      dest:         /etc/sysconfig/mysqlc
+      dest:         "{{ mysqlc_sysconfig_file }}"
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
 
