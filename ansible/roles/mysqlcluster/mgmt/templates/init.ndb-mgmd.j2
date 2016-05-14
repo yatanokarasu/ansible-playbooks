@@ -61,7 +61,7 @@ case "${1:-''}" in
         [ -x $DAEMON ] || exit 5
         echo -n "Initial starting $DAEMON: "
         sudo -u $MYSQLC_USER $DAEMON -f $CONF_INI --configdir={{ mysqlc_config_dir }} --initial -d
-
+        ;;
     *)
         echo "Usage: $SELF start|reload|start-initial"
         exit 1

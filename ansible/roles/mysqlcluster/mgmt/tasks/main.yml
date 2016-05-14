@@ -31,9 +31,9 @@
     template:
       src:          init.ndb-mgmd.j2
       dest:         /etc/init.d/{{ mysqlc_mgmt.service_name }}
-      owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_group }}"
-
+      owner:        root
+      group:        root
+      mode:         0755
 
 
   - name: Enable MySQL mgmt node service on boot
