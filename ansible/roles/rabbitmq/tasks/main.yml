@@ -22,89 +22,99 @@
 
 
 
-  # - name: Install wget command
+  - name: Install wget command
 
-  #   become:         yes
+    become:         yes
 
-  #   local_action:
-  #     module:       yum
-  #     name:         wget
-
-
-
-  # - name: Add Erlang Solution repository
-
-  #   become:         yes
-
-  #   local_action:
-  #     module:       yum
-  #     name:         "{{ erlang_solutions_rpm }}"
-  #     state:        installed
+    local_action:
+      module:       yum
+      name:         wget
 
 
 
-  # - name: Add gpg key for RabbitMQ to RPM DB
+  - name: Add Erlang Solution repository
 
-  #   become:         yes
+    become:         yes
 
-  #   local_action:
-  #     module:       rpm_key
-  #     key:          "{{ rabbitmq_gpg_key }}"
-
-
-
-  # - name: Download RabbitMQ package with dependencies
-
-  #   become:         yes
-
-  #   local_action:
-  #     module:       yumdownload
-  #     name:         rabbitmq-server
-  #     downloaddir:  "{{ rabbitmq_rpms_dir }}"
+    local_action:
+      module:       yum
+      name:         "{{ erlang_solutions_rpm }}"
+      state:        installed
 
 
 
-  # - name: Upload RabbitMQ and depending packages
+  - name: Add gpg key for RabbitMQ to RPM DB
 
-  #   copy:
-  #     src:          "{{ rabbitmq_rpms_dir }}"
-  #     dest:         "{{ rabbitmq_rpms_dir | dirname }}"
+    become:         yes
+
+    local_action:
+      module:       rpm_key
+      key:          "{{ rabbitmq_gpg_key }}"
 
 
 
-  # - name: Install RabbitMQ and depending packages
+  - name: Download RabbitMQ package with dependencies
 
-  #   become:         yes
+    become:         yes
 
-  #   yum:
-  #     name:         "{{ item }}"
+    local_action:
+      module:       yumdownload
+      name:         rabbitmq-server
+      downloaddir:  "{{ rabbitmq_rpms_dir }}"
 
-  #   with_fileglob:
-  #     - "{{ rabbitmq_rpms_dir }}/*.rpm"
+
+
+  - name: Upload RabbitMQ and depending packages
+
+    copy:
+      src:          "{{ rabbitmq_rpms_dir }}"
+      dest:         "{{ rabbitmq_rpms_dir | dirname }}"
+
+
+
+  - name: Install RabbitMQ and depending packages
+
+    become:         yes
+
+    yum:
+      name:         "{{ item }}"
+
+    with_fileglob:
+      - "{{ rabbitmq_rpms_dir }}/*.rpm"
 
 
 
   - name: Open access port for RabbitMQ
 
-    become:             yes
+    become:         yes
 
     lineinfile:
-      dest:             /etc/sysconfig/iptables
-      insertafter:      "^:OUTPUT"
-      line:             "-A INPUT -i {{ rabbitmq_iptables.in }} -p tcp -m state --state NEW --dport {{ item }} -j ACCEPT"
+      dest:         /etc/sysconfig/iptables
+      insertafter:  "^:OUTPUT"
+      line:         "-A INPUT -i {{ rabbitmq_iptables.in }} -p tcp -m state --state NEW --dport {{ item }} -j ACCEPT"
 
-    with_items:         "{{ rabbitmq_iptables.dest_ports }}"
+    with_items:     "{{ rabbitmq_iptables.dest_ports }}"
 
     notify:
-      -                 restart iptables
+      -             restart iptables
+
+
+
+  - name: Restart iptables
+
+    become:         yes
+
+    service:
+      name:         iptables
+      state:        restarted
 
 
 
   - name: Enable RabbitMQ server on boot
 
-    become:             yes
+    become:         yes
 
     service:
-      name:             rabbitmq-server
-      state:            started
-      enabled:          yes
+      name:         rabbitmq-server
+      state:        started
+      enabled:      yes
