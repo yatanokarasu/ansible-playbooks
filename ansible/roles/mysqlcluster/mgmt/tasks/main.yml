@@ -125,3 +125,13 @@
       dest:       /etc/init.d/{{ mysqlc_mgmt.service_name }}
       owner:      "{{ mysqlc_user }}"
       group:      "{{ mysqlc_group }}"
+
+
+
+  - name: Enable MySQL mgmt node service on boot
+
+    become:         yes
+
+    service:
+      name:         "{{ mysqlc_mgmt.service_name }}"
+      enabled:      yes
