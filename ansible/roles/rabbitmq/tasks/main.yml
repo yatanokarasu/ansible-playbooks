@@ -86,25 +86,35 @@
 
   - name: Open access port for RabbitMQ
 
-    become:             yes
+    become:         yes
 
     lineinfile:
-      dest:             /etc/sysconfig/iptables
-      insertafter:      "^:OUTPUT"
-      line:             "-A INPUT -i {{ rabbitmq_iptables.in }} -p tcp -m state --state NEW --dport {{ item }} -j ACCEPT"
+      dest:         /etc/sysconfig/iptables
+      insertafter:  "^:OUTPUT"
+      line:         "-A INPUT -i {{ rabbitmq_iptables.in }} -p tcp -m state --state NEW --dport {{ item }} -j ACCEPT"
 
-    with_items:         "{{ rabbitmq_iptables.dest_ports }}"
+    with_items:     "{{ rabbitmq_iptables.dest_ports }}"
 
     notify:
-      -                 restart iptables
+      -             restart iptables
+
+
+
+  - name: Restart iptables
+
+    become:         yes
+
+    service:
+      name:         iptables
+      state:        restarted
 
 
 
   - name: Enable RabbitMQ server on boot
 
-    become:             yes
+    become:         yes
 
     service:
-      name:             rabbitmq-server
-      state:            started
-      enabled:          yes
+      name:         rabbitmq-server
+      state:        started
+      enabled:      yes
