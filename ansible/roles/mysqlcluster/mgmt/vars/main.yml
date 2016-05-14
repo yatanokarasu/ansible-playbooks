@@ -20,5 +20,6 @@ mysqlc_profile_file:            /etc/profile.d/mysqlc.sh
 mysqlc_sysconfig_file:          /etc/sysconfig/mysqlc
 
 mysqlc_mgmt:
+  service_name:                 ndb-mgmd
   config_file:                  "{{ mysqlc_config_dir }}/config.ini"
   data_dir:                     "{{ mysqlc_deploy_dir }}/ndb_mgmd"

@@ -113,3 +113,15 @@
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
       state:        directory
+
+
+
+  - name: Create service script for mgmt node
+
+    become:         yes
+
+    template:
+      src:        init.ndb-mgmd.j2
+      dest:       /etc/init.d/{{ mysqlc_mgmt.service_name }}
+      owner:      "{{ mysqlc_user }}"
+      group:      "{{ mysqlc_group }}"
