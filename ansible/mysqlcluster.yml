@@ -23,3 +23,13 @@
       #   - { role: role2, param1: xxx, param2: yyy, ... }
 
       - mysqlcluster/mgmt
+
+
+    handlers:
+      - name: Restart iptables
+
+        become:         yes
+
+        service:
+          name:         iptables
+          state:        restarted

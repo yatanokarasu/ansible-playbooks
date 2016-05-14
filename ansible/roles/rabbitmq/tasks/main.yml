@@ -95,18 +95,7 @@
 
     with_items:     "{{ rabbitmq_iptables.dest_ports }}"
 
-    notify:
-      -             restart iptables
-
-
-
-  - name: Restart iptables
-
-    become:         yes
-
-    service:
-      name:         iptables
-      state:        restarted
+    notify:         Restart iptables
 
 
 
@@ -116,5 +105,4 @@
 
     service:
       name:         rabbitmq-server
-      state:        started
       enabled:      yes
