@@ -12,6 +12,18 @@
 
 
 
+  - name: Create config.ini
+
+    become:         yes
+
+    template:
+      src:          config.ini.j2
+      dest:         "{{ mysqlc_mgmt.config_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+
+
+
   - name: Create service script for mgmt node
 
     become:         yes
@@ -31,6 +43,7 @@
     service:
       name:         "{{ mysqlc_mgmt.service_name }}"
       enabled:      yes
+
 
 
   - name: Open mgmt node port
