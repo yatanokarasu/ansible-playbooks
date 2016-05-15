@@ -51,3 +51,13 @@ mysqlc_nodes:
     - ip_address:               192.168.0.10
       node_id:                  1
       node_group:               1
+
+  sql:
+    - ip_address:               192.168.0.10
+      node_id:                  51
+
+  # if you need no api node,
+  # set either begin_id and end_id to zero.
+  api:
+    begin_id:                   52
+    node_count:                 2

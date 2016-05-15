@@ -33,3 +33,21 @@ NodeId={{ data_node.node_id }}
 NodeGroup={{ data_node.node_group }}
 
 {% endfor %}
+
+
+# ----------------------------
+# API/SQL node parameters
+# ----------------------------
+
+{% for sql_node in mysqlc_nodes.sql %}
+[mysqld]
+HostName={{ sql_node.ip_address }}
+NodeId={{ sql_node.node_id }}
+
+{% endfor %}
+
+{% for api_node_id in range(mysqlc_nodes.api.begin_id, mysqlc_nodes.api.begin_id + mysqlc_nodes.api.node_count) %}
+[api]
+NodeId={{ api_node_id }}
+
+{% endfor %}
