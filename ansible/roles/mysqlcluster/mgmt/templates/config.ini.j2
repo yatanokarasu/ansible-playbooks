@@ -1,4 +1,26 @@
 
+# ----------------------------
+# Management node parameters
+# ----------------------------
+
 [ndb_mgmd default]
 DataDir={{ mysqlc_mgmt.data_dir }}
 PortNumber={{ mysqlc_mgmt.port }}
+
+
+{% for mgmt_node in mysqlc_hosts.mgmt_nodes %}
+[ndb_mgmd]
+HostName={{ mgmt_node.ip_address }}
+NodeId={{ mgmt_node.node_id }}
+
+{% endfor %}
+
+
+# ----------------------------
+# Data node parameters
+# ----------------------------
+
+[ndb default]
+NodeOfReplicas={{ mysqlc_config.ndbd.no_of_replicas }}
+ServerPort={{ mysqlc_config.ndbd.port }}
+DataDir={{ mysqlc_config.ndbd.data_dir }}

@@ -18,3 +18,28 @@ mysqlc_uid:                     5001
 
 mysqlc_profile_file:            /etc/profile.d/mysqlc.sh
 mysqlc_sysconfig_file:          /etc/sysconfig/mysqlc
+
+
+mysqlc_config:
+
+  ndbd:
+    no_of_replicas:             1
+    port:                       63132
+    data_dir:                   "{{ mysqlc_deploy_dir }}/ndb_data"
+
+
+
+
+# ----------------------------
+# host information in config.ini
+# ----------------------------
+mysqlc_hosts:
+
+  mgmt_nodes:
+    - ip_address:               192.168.0.10
+      node_id:                  49
+
+  data_nodes:
+    - ip_address:               192.168.0.10
+      node_id:                  1
+      node_group:               1
