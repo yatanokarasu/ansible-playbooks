@@ -4,8 +4,8 @@
 # ----------------------------
 
 [ndb_mgmd default]
-DataDir={{ mysqlc_mgmt.data_dir }}
-PortNumber={{ mysqlc_mgmt.port }}
+DataDir={{ mysqlc_config.ndb_mgmd.data_dir }}
+PortNumber={{ mysqlc_config.ndb_mgmd.port }}
 
 
 {% for mgmt_node in mysqlc_hosts.mgmt_nodes %}

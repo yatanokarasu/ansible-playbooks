@@ -1,6 +1,3 @@
 
 mysqlc_mgmt:
-  service_name:                 ndb-mgmd
-  config_file:                  "{{ mysqlc_config_dir }}/config.ini"
-  data_dir:                     "{{ mysqlc_deploy_dir }}/ndb_mgmd"
-  port:                         1186
+  
