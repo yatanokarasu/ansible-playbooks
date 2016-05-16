@@ -34,3 +34,26 @@
       owner:        root
       group:        root
       mode:         0755
+
+
+
+  - name: Enable MySQL data node service on boot
+
+    become:         yes
+
+    service:
+      name:         "{{ mysqlc_service_name.ndbd }}"
+      enabled:      yes
+
+
+
+  - name: Open data node port
+
+    become:         yes
+
+    lineinfile:
+      dest:         /etc/sysconfig/iptables
+      insertafter:  ^:OUTPUT
+      line:         -A INPUT -p tcp -m state --state NEW --dport {{ mysqlc_config.ndbd.port }} -j ACCEPT
+
+    notify:         Restart iptables
