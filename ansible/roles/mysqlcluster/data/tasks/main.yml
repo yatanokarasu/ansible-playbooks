@@ -1,0 +1,23 @@
+---
+
+  - name: Create data directory for data node
+
+    become:         yes
+
+    file:
+      path:         "{{ mysqlc_config.ndbd.data_dir }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+      state:        directory
+
+
+
+  - name: Create my.cnf for data node
+
+    become:         yes
+
+    template:
+      src:          my.data.cnf.j2
+      dest:         "{{ mysqlc_config.ndbd.config_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"

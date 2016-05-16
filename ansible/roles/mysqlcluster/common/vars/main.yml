@@ -31,9 +31,10 @@ mysqlc_config:
     port:                       1186
 
   ndbd:
+    config_file:                "{{ mysqlc_config_dir }}/my.data.cnf"
+    data_dir:                   "{{ mysqlc_deploy_dir }}/ndb_data"
     no_of_replicas:             1
     port:                       63132
-    data_dir:                   "{{ mysqlc_deploy_dir }}/ndb_data"
 
 
 

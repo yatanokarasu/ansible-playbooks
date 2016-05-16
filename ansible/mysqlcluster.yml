@@ -23,6 +23,7 @@
       #   - { role: role2, param1: xxx, param2: yyy, ... }
 
       - mysqlcluster/mgmt
+      - mysqlcluster/data
 
 
     handlers:
