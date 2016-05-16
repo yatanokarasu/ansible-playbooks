@@ -49,10 +49,11 @@ mysqlc_nodes:
     - ip_address:               192.168.0.10
       node_id:                  49
 
+  # node_group must be assigned from 0.
   data:
     - ip_address:               192.168.0.10
       node_id:                  1
-      node_group:               1
+      node_group:               0
 
   sql:
     - ip_address:               192.168.0.10
