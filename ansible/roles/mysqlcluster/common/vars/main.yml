@@ -20,7 +20,8 @@ mysqlc_profile_file:            /etc/profile.d/mysqlc.sh
 mysqlc_sysconfig_file:          /etc/sysconfig/mysqlc
 
 mysqlc_service_name:
-  ndb_mgmd:                    ndb-mgmd
+  ndb_mgmd:                     ndb-mgmd
+  ndbd:                         ndbd
 
 
 mysqlc_config:

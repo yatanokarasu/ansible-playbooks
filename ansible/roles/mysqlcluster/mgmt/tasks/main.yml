@@ -36,6 +36,7 @@
       mode:         0755
 
 
+
   - name: Enable MySQL mgmt node service on boot
 
     become:         yes

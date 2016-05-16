@@ -21,3 +21,16 @@
       dest:         "{{ mysqlc_config.ndbd.config_file }}"
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
+
+
+
+  - name: Create service script for data node
+
+    become:         yes
+
+    template:
+      src:          init.ndbd.j2
+      dest:         /etc/init.d/{{ mysqlc_service_name.ndbd }}
+      owner:        root
+      group:        root
+      mode:         0755
