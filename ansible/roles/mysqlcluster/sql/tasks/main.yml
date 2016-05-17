@@ -34,6 +34,16 @@
 
 
 
+  - name: Enable MySQL service on boot
+
+    become:         yes
+
+    service:
+      name:         "{{ mysqlc_service_name.mysqld }}"
+      enabled:      yes
+
+
+
   - name: Open MySQL port
 
     become:         yes
