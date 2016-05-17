@@ -34,11 +34,13 @@ mysqlc_config:
   ndbd:
     config_file:                "{{ mysqlc_config_dir }}/my.data.cnf"
     data_dir:                   "{{ mysqlc_deploy_dir }}/ndb_data"
-    no_of_replicas:             1
     port:                       63132
+    no_of_replicas:             1
 
   mysqld:
+    config_file:                "{{ mysqlc_config_dir }}/my.sql.cnf"
     data_dir:                   "{{ mysqlc_deploy_dir }}/mysqld"
+    port:                       3306
 
 
 
@@ -57,9 +59,11 @@ mysqlc_nodes:
       node_id:                  1
       node_group:               0
 
+  # server_id must be unique.
   sql:
     - ip_address:               192.168.0.10
       node_id:                  51
+      server_id:                1
 
   # if you need no api node,
   # set either begin_id and end_id to zero.

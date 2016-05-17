@@ -9,3 +9,15 @@
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
       state:        directory
+
+
+
+  - name: Create my.cnf for sql node
+
+    become:         yes
+
+    template:
+      src:          my.sql.cnf.j2
+      dest:         "{{ mysqlc_config.mysqld.config_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
