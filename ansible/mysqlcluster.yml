@@ -22,9 +22,9 @@
       #   - { role: role1, param1: xxx, param2: yyy, ... }
       #   - { role: role2, param1: xxx, param2: yyy, ... }
 
-      - mysqlcluster/mgmt
-      - mysqlcluster/data
-      - mysqlcluster/sql
+      - { role: mysqlcluster/mgmt,  tags: [mysqlc_mgmt] }
+      - { role: mysqlcluster/data,  tags: [mysqlc_data] }
+      - { role: mysqlcluster/sql,   tags: [mysqlc_sql]  }
 
 
     handlers:
