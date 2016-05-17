@@ -24,6 +24,7 @@
 
       - mysqlcluster/mgmt
       - mysqlcluster/data
+      - mysqlcluster/sql
 
 
     handlers:

@@ -37,6 +37,8 @@ mysqlc_config:
     no_of_replicas:             1
     port:                       63132
 
+  mysqld:
+    data_dir:                   "{{ mysqlc_deploy_dir }}/mysqld"
 
 
 

@@ -1,0 +1,11 @@
+---
+
+  - name: Create data directory for sql node
+
+    become:         yes
+
+    file:
+      path:         "{{ mysqlc_config.mysqld.data_dir }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+      state:        directory
