@@ -101,3 +101,14 @@
       dest:         "{{ mysqlc_sysconfig_file }}"
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
+
+
+
+  - name: Remove /etc/my.cnf if exists
+
+    become:         yes
+
+    file:
+      path:         /etc/my.cnf
+      state:        absent
+
