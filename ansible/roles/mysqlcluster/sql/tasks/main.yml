@@ -24,6 +24,16 @@
 
 
 
+  - name: Copy service script from support files
+
+    become:         yes
+
+    shell:          cp {{ mysqlc_base_dir }}/support-files/mysql.server /etc/init.d/{{ mysqlc_service_name.mysqld }}
+    args:
+      creates:      /etc/init.d/{{ mysqlc_service_name.mysqld }}
+
+
+
   - name: Open MySQL port
 
     become:         yes

@@ -22,6 +22,7 @@ mysqlc_sysconfig_file:          /etc/sysconfig/mysqlc
 mysqlc_service_name:
   ndb_mgmd:                     ndb-mgmd
   ndbd:                         ndbd
+  mysqld:                       mysqld
 
 
 mysqlc_config:
