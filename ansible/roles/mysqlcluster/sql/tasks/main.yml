@@ -24,13 +24,16 @@
 
 
 
-  - name: Copy service script from support files
+  - name: Create service script for sql node
 
     become:         yes
 
-    shell:          cp {{ mysqlc_base_dir }}/support-files/mysql.server /etc/init.d/{{ mysqlc_service_name.mysqld }}
-    args:
-      creates:      /etc/init.d/{{ mysqlc_service_name.mysqld }}
+    template:
+      src:          init.mysqld.j2
+      dest:         /etc/init.d/{{ mysqlc_service_name.mysqld }}
+      owner:        root
+      group:        root
+      mode:         0755
 
 
 
