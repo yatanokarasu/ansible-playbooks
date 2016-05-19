@@ -1,0 +1,114 @@
+---
+
+  - name: Prepare directory to store
+
+    local_action:
+      module:       file
+      path:         "{{ mysqlc_archive_dir }}"
+      state:        directory
+
+
+
+  - name: Download MySQL Cluster archive
+
+    local_action:
+      module:       get_url
+      url:          "{{ mysqlc_archive_url }}"
+      dest:         "{{ mysqlc_archive_filepath }}"
+      checksum:     "{{ mysqlc_archive_checksum }}"
+
+
+
+  - name: Upload and extract MySQL Cluster archive
+
+    become:         yes
+
+    unarchive:
+      src:          "{{ mysqlc_archive_filepath }}"
+      dest:         "{{ mysqlc_extract_dir }}"
+      creates:      "{{ mysqlc_install_dir }}"
+
+
+
+  - name: Create symbolic link of MySQL Cluster
+
+    become:         yes
+
+    file:
+      src:          "{{ mysqlc_install_dir }}"
+      dest:         "{{ mysqlc_base_dir }}"
+      state:        link
+
+
+
+  - name: Create MySQL Cluster user
+
+    become:         yes
+
+    user:
+      name:         "{{ mysqlc_user }}"
+      uid:          "{{ mysqlc_uid }}"
+      group:        "{{ mysqlc_group }}"
+      home:         "{{ mysqlc_base_dir }}"
+      createhome:   no
+      shell:        /sbin/nologin"
+
+
+  - name: Create directory to store config file
+
+    become:         yes
+
+    file:
+      path:         "{{ mysqlc_config_dir }}"
+      state:        directory
+
+
+
+  - name: Change owner/group of directories
+
+    become:         yes
+
+    file:
+      path:         "{{ item }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+      recurse:      yes
+
+    with_items:
+      -             "{{ mysqlc_install_dir }}"
+      -             "{{ mysqlc_deploy_dir }}"
+
+
+
+  - name: Create profile to configure environment variables
+
+    become:         yes
+
+    template:
+      src:          profile.mysqlc.sh.j2
+      dest:         "{{ mysqlc_profile_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+
+
+
+  - name: Create sysconfig file for service script
+
+    become:         yes
+
+    template:
+      src:          sysconfig.mysqlc.j2
+      dest:         "{{ mysqlc_sysconfig_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
+
+
+
+  - name: Remove /etc/my.cnf if exists
+
+    become:         yes
+
+    file:
+      path:         /etc/my.cnf
+      state:        absent
+

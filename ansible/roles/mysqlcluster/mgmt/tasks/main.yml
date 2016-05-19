@@ -1,118 +1,26 @@
 ---
 
-  - name: Prepare directory to store
-
-    local_action:
-      module:       file
-      path:         "{{ mysqlc_archive_dir }}"
-      state:        directory
-
-
-
-  - name: Download MySQL Cluster archive
-
-    local_action:
-      module:       get_url
-      url:          "{{ mysqlc_archive_url }}"
-      dest:         "{{ mysqlc_archive_filepath }}"
-      checksum:     "{{ mysqlc_archive_checksum }}"
-
-
-
-  - name: Upload and extract MySQL Cluster archive
-
-    become:         yes
-
-    unarchive:
-      src:          "{{ mysqlc_archive_filepath }}"
-      dest:         "{{ mysqlc_extract_dir }}"
-      creates:      "{{ mysqlc_install_dir }}"
-
-
-
-  - name: Create symbolic link of MySQL Cluster
-
-    become:         yes
-
-    file:
-      src:          "{{ mysqlc_install_dir }}"
-      dest:         "{{ mysqlc_base_dir }}"
-      state:        link
-
-
-
-  - name: Create MySQL Cluster user
-
-    become:         yes
-
-    user:
-      name:         "{{ mysqlc_user }}"
-      uid:          "{{ mysqlc_uid }}"
-      group:        "{{ mysqlc_group }}"
-      home:         "{{ mysqlc_base_dir }}"
-      createhome:   no
-      shell:        /sbin/nologin"
-
-
-  - name: Create directory to store config file
-
-    become:         yes
-
-    file:
-      path:         "{{ mysqlc_config_dir }}"
-      state:        directory
-
-
-
-  - name: Change owner/group of directories
-
-    become:         yes
-
-    file:
-      path:         "{{ item }}"
-      owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_group }}"
-      recurse:      yes
-
-    with_items:
-      -             "{{ mysqlc_install_dir }}"
-      -             "{{ mysqlc_deploy_dir }}"
-
-
-
-  - name: Create profile to configure environment variables
-
-    become:         yes
-
-    template:
-      src:          profile.mysqlc.sh.j2
-      dest:         "{{ mysqlc_profile_file }}"
-      owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_group }}"
-
-
-
-  - name: Create sysconfig file for service script
-
-    become:         yes
-
-    template:
-      src:          sysconfig.mysqlc.j2
-      dest:         "{{ mysqlc_sysconfig_file }}"
-      owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_group }}"
-
-
-
   - name: Create data directory for mgmt node
 
     become:         yes
 
     file:
-      path:         "{{ mysqlc_mgmt.data_dir }}"
+      path:         "{{ mysqlc_config.ndb_mgmd.data_dir }}"
       owner:        "{{ mysqlc_user }}"
       group:        "{{ mysqlc_group }}"
       state:        directory
+
+
+
+  - name: Create config.ini
+
+    become:         yes
+
+    template:
+      src:          config.ini.j2
+      dest:         "{{ mysqlc_config.ndb_mgmd.config_file }}"
+      owner:        "{{ mysqlc_user }}"
+      group:        "{{ mysqlc_group }}"
 
 
 
@@ -122,9 +30,10 @@
 
     template:
       src:          init.ndb-mgmd.j2
-      dest:         /etc/init.d/{{ mysqlc_mgmt.service_name }}
-      owner:        "{{ mysqlc_user }}"
-      group:        "{{ mysqlc_group }}"
+      dest:         /etc/init.d/{{ mysqlc_service_name.ndb_mgmd }}
+      owner:        root
+      group:        root
+      mode:         0755
 
 
 
@@ -133,8 +42,9 @@
     become:         yes
 
     service:
-      name:         "{{ mysqlc_mgmt.service_name }}"
+      name:         "{{ mysqlc_service_name.ndb_mgmd }}"
       enabled:      yes
+
 
 
   - name: Open mgmt node port
@@ -144,14 +54,6 @@
     lineinfile:
       dest:         /etc/sysconfig/iptables
       insertafter:  ^:OUTPUT
-      line:         -A INPUT -p tcp -m state --state NEW --dport {{ mysqlc_mgmt.port }} -j ACCEPT
+      line:         -A INPUT -p tcp -m state --state NEW --dport {{ mysqlc_config.ndb_mgmd.port }} -j ACCEPT
 
-
-
-  - name: Restart iptables
-
-    become:         yes
-
-    service:
-      name:         iptables
-      state:        restarted
+    notify:         Restart iptables

@@ -1,0 +1,20 @@
+
+[mysqld]
+ndbcluster
+{% set connectstring = [] %}
+{% for mgmt_node in mysqlc_nodes.mgmt %}
+{% do connectstring.append(mgmt_node.ip_address) %}
+{% endfor %}
+ndb-connectstring={{ connectstring | join(',') }}
+
+user={{ mysqlc_user }}
+port={{ mysqlc_config.mysqld.port }}
+
+basedir={{ mysqlc_base_dir }}
+datadir={{ mysqlc_config.mysqld.data_dir }}
+
+{% for ipaddr in ansible_all_ipv4_addresses %}
+{% for sql_node in mysqlc_nodes.sql if not sql_node.ip_address == ipaddr %}
+server-id={{ sql_node.server_id }}
+{% endfor %}
+{% endfor %}

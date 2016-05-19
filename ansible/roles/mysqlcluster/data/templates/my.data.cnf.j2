@@ -1,0 +1,7 @@
+
+[mysql_cluster]
+{% set connectstring = [] %}
+{% for mgmt_node in mysqlc_nodes.mgmt %}
+{% do connectstring.append(mgmt_node.ip_address) %}
+{% endfor %}
+ndb-connectstring={{ connectstring | join(',') }}

@@ -22,4 +22,16 @@
       #   - { role: role1, param1: xxx, param2: yyy, ... }
       #   - { role: role2, param1: xxx, param2: yyy, ... }
 
-      - mysqlcluster/mgmt
+      - { role: mysqlcluster/mgmt,  tags: [mysqlc_mgmt] }
+      - { role: mysqlcluster/data,  tags: [mysqlc_data] }
+      - { role: mysqlcluster/sql,   tags: [mysqlc_sql]  }
+
+
+    handlers:
+      - name: Restart iptables
+
+        become:         yes
+
+        service:
+          name:         iptables
+          state:        restarted

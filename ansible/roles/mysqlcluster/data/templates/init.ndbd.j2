@@ -3,15 +3,15 @@
 # chkconfig: 345 99 10
 #
 ### BEGIN INIT INFO
-# Provides:          {{ mysqlc_service_name.ndb_mgmd }}
+# Provides:          {{ mysqlc_service_name.ndbd }}
 # Required-Start:    $syslog
 # Required-Stop:     $syslog
 # Should-Start:      $local_fs $remote_fs $network $named $time
 # Should-Stop:       $local_fs $remote_fs $network $named $time
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start and stop the mysql database cluster management daemon
-# Description:       Controls the MySQL NDB Management Node daemon "ndb_mgmd".
+# Short-Description: Start and stop the mysql database cluster data daemon
+# Description:       Controls the MySQL NDB Data Node daemon "ndbmtd(ndbd)".
 ### END INIT INFO
 #
 
@@ -26,7 +26,7 @@ fi
 # Variables
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
 
-DAEMON=$BASE_DIR/bin/ndb_mgmd
+DAEMON=$BASE_DIR/bin/ndbmtd
 
 # Safeguard (relative paths, core dumps..)
 cd /
@@ -39,7 +39,7 @@ umask 077
 # remain silently if the server has not even been configured.
 # See /usr/share/doc/mysql-server-*/README.Debian for more information.
 test -x $DAEMON || exit 0
-test -r $CONF_INI || exit 0
+test -r $MY_DATA_CNF || exit 0
 
 #
 # main()
@@ -47,23 +47,31 @@ test -r $CONF_INI || exit 0
 case "${1:-''}" in
     'start')
         [ -x $DAEMON ] || exit 5
-        echo -n "Starting $DAEMON: "
-        sudo -u $MYSQLC_USER $DAEMON -f $CONF_INI --configdir={{ mysqlc_config_dir }} -d
+        echo -n $"Starting $DAEMON: "
+        sudo -u $MYSQLC_USER $DAEMON --defaults-file=$MY_DATA_CNF -d
         ;;
-
-    'reload')
-        [ -x $DAEMON ] || exit 5
-        echo -n "Starting $DAEMON with config.ini reloading: "
-        sudo -u $MYSQLC_USER $DAEMON -f $CONF_INI --configdir={{ mysqlc_config_dir }} --reload -d
-        ;;
-
+    
     'start-initial')
         [ -x $DAEMON ] || exit 5
-        echo -n "Initial starting $DAEMON: "
-        sudo -u $MYSQLC_USER $DAEMON -f $CONF_INI --configdir={{ mysqlc_config_dir }} --initial -d
+        echo -n $"Starting $DAEMON: "
+        sudo -u $MYSQLC_USER $DAEMON --defaults-file=$MY_DATA_CNF --initial -d 
         ;;
+    
+    'start-wait')
+        [ -x $DAEMON ] || exit 5
+        echo -n $"Starting $DAEMON: "
+        sudo -u $MYSQLC_USER $DAEMON --defaults-file=$MY_DATA_CNF --nostart -d
+        ;;
+    
+    'start-initial-wait')
+        [ -x $DAEMON ] || exit 5
+        echo -n $"Starting $DAEMON: "
+        sudo -u $MYSQLC_USER $DAEMON --defaults-file=$MY_DATA_CNF --nostart --initial -d 
+        ;;
+    
     *)
-        echo "Usage: $SELF start|reload|start-initial"
+        echo "Usage: $SELF start|start-initial|start-wait|start-initial-wait"
         exit 1
         ;;
+    
 esac

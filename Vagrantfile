@@ -82,8 +82,8 @@ end
 
 
 $servers = [
-  { name: 'provider', cpus: 1, ram: '512', ipaddr: '192.168.0.254' },
-  { name: 'target',   cpus: 1, ram: '512', ipaddr: '192.168.0.10'  },
+  { name: 'provider', cpus: 1, ram: '384',  ipaddr: '192.168.0.254' },
+  { name: 'target',   cpus: 1, ram: '1024', ipaddr: '192.168.0.10'  },
 ]
 
 create_ssh_config
