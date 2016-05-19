@@ -37,6 +37,18 @@
 
 
 
+  - name: Install MySQL Databases and tables
+
+    become:         yes
+
+    command:        ./scripts/mysql_install_db --defaults-file={{ mysqlc_config.mysqld.config_file }}
+    args:
+      chdir:        "{{ mysqlc_base_dir }}"
+
+    changed_when:   false
+
+
+
   - name: Enable MySQL service on boot
 
     become:         yes
